@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>jcb-badge</title>
+      <script type="module" src="/src/jcb-gauge.js"></script>
+   </head>
+   <body>
+      <div class="panel">
+         <jcb-gauge
+            name="Lipides"
+            size="200"
+            domain='{"inf":0, "sup":200.0}'
+            norm='{ "d1": 40.0, "d2": 60.0, "dt1": 5.0, "dt2": 5.0 }'
+            value='{ "d1": 55.0, "d2": 55.0, "dt1": 2.0, "dt2": 2.0 }'
+         ></jcb-gauge>
+      </div>
+   </body>
+</html>
+
+<style>
+:root {
+   --jcb-badge-text-color: black;
+   --jcb-badge-font-family: Roboto;
+}
+
+.panel {
+   background-color: aqua;
+   width: 500px;
+   height: 500px;
+   padding: 0;
+   margin: 0;
+}
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
