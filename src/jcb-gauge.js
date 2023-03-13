@@ -3,7 +3,6 @@ import { LitElement, css, html } from 'lit'
 /**
    * A custom-element which displays a gauge
    * @attr {String} name - The text to display on the lower part of the gauge
-   * @attr {String} denominator - The text to display on the lower part of the fraction
    * @cssprop --jcb-gauge-text-color - Controls the color of the text (default: black)
    * @cssprop --jcb-gauge-text-font-family - Controls the font family of the text (default: Roboto, Helvetica, Arial, sans-serif)
    */
@@ -12,6 +11,9 @@ export class Gauge extends LitElement {
    static get properties() {
       return {
          name: { type: String },
+         domain: {type: Object},
+         norm: { type: Object },
+         value: { type: Object },
       }
    }
 
@@ -19,6 +21,18 @@ export class Gauge extends LitElement {
       super()
       // default values - before override by attributes
       this.name = ""
+      this.domain = { inf: 0., sup: 100. }
+      this.norm = { d1: 40., d2: 60., dt1: 5., dt2: 5., h: 0. }
+      this.value = { d1: 50., d2: 50., dt1: 2., dt2: 2., h: 0. }
+   }
+   
+   // angle corresponding to the middle value of the kernel
+   get middleKernel() {
+      return (this.value.d2 + this.value.d1) / 2.
+   }
+
+   get valueAngle() {
+      return valueToAngle(this.domain.inf, this.domain.sup, this.middleKernel)
    }
 
    render() {
@@ -74,12 +88,12 @@ export class Gauge extends LitElement {
             </g>
          
             <!-- needle -->
-            <path fill="black" transform="rotate(0)" d="M 0 30 L -20 30 A 60 60 0 0 1 -50 0 L ${-nas1x-20} ${-nas1y+20} A 60 60 0 0 1 ${-nas1x} ${-nas1y} A 900 900 0 0 1 ${-nas2x} ${-nas2y} A 60 60 0 0 1 ${-nas2x+20} ${-nas2y+20} L 50 0 A 60 60 0 0 1 20 30" />
+            <path fill="black" transform="rotate(${this.valueAngle})" d="M 0 30 L -20 30 A 60 60 0 0 1 -50 0 L ${-nas1x-20} ${-nas1y+20} A 60 60 0 0 1 ${-nas1x} ${-nas1y} A 900 900 0 0 1 ${-nas2x} ${-nas2y} A 60 60 0 0 1 ${-nas2x+20} ${-nas2y+20} L 50 0 A 60 60 0 0 1 20 30" />
 
             <!-- lower area -->
             <rect fill="${compatColor}" x="-1050" y="150" rx="100" ry="100" width="2100" height="300" />
             <text text-anchor="middle" style="white-space: pre; fill: black; text-align: center; font: bold 100px sans-serif;" x="0" y="330">
-               ${this.name}
+               ${this.name} ${this.middleKernel}
             </text>
          </svg>
       `
@@ -116,6 +130,19 @@ export class Gauge extends LitElement {
          }
       `
    }
+}
+
+function valueToAngle(liminf, limsup, val) {
+   const MIN = -75.
+   const MAX = +75.
+   if (val < -1000000) return MAX
+   if (val > 1000000) return MIN
+   var ang = MIN + (MAX-MIN) * (val - liminf) / (limsup - liminf)
+   ang = Math.max(ang, MIN)
+   ang = Math.min(ang, MAX)
+   // convert to radian
+   return ang
+   return ang * Math.PI / 180.0
 }
 
 window.customElements.define('jcb-gauge', Gauge)
