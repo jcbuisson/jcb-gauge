@@ -27,12 +27,20 @@ export class Gauge extends LitElement {
    }
    
    // angle corresponding to the middle value of the kernel
-   get middleKernel() {
+   get kernelMiddleValue() {
       return (this.value.d2 + this.value.d1) / 2.
    }
 
    get valueAngle() {
-      return valueToAngle(this.domain.inf, this.domain.sup, this.middleKernel)
+      return valueToAngle(this.domain.inf, this.domain.sup, this.kernelMiddleValue)
+   }
+
+   get d1ToMiddleAngle() {
+      return valueToAngle(this.domain.inf, this.domain.sup, this.kernelMiddleValue - this.value.d1)
+   }
+
+   get middleToD2Angle() {
+      return valueToAngle(this.domain.inf, this.domain.sup, this.value.d2 - this.kernelMiddleValue)
    }
 
    render() {
@@ -93,7 +101,7 @@ export class Gauge extends LitElement {
             <!-- lower area -->
             <rect fill="${compatColor}" x="-1050" y="150" rx="100" ry="100" width="2100" height="300" />
             <text text-anchor="middle" style="white-space: pre; fill: black; text-align: center; font: bold 100px sans-serif;" x="0" y="330">
-               ${this.name} ${this.middleKernel}
+               ${this.name} ${this.kernelMiddleValue}
             </text>
          </svg>
       `
@@ -107,27 +115,6 @@ export class Gauge extends LitElement {
             width: 100%; /* <jcb-gauge> takes full parent size */
             height: 100%;
          }
-
-         :root {
-         }
-
-         #holder {
-            fill: #FEAC4C;
-         }
-
-         .mark {
-            fill: var(--jcb-badge-text-color, black);
-            font-family: var(--jcb-badge-font-family, Roboto, Helvetica, Arial, sans-serif);
-            font-weight: 500;
-         }
-
-         .numerator {
-            font-size: 2.0em;
-         }
-
-         .denominator {
-            font-size: 1.7em;
-         }
       `
    }
 }
@@ -135,14 +122,9 @@ export class Gauge extends LitElement {
 function valueToAngle(liminf, limsup, val) {
    const MIN = -75.
    const MAX = +75.
-   if (val < -1000000) return MAX
-   if (val > 1000000) return MIN
-   var ang = MIN + (MAX-MIN) * (val - liminf) / (limsup - liminf)
-   ang = Math.max(ang, MIN)
-   ang = Math.min(ang, MAX)
-   // convert to radian
-   return ang
-   return ang * Math.PI / 180.0
+   if (val < liminf) return MAX
+   if (val > limsup) return MIN
+   return MIN + (MAX-MIN) * (val - liminf) / (limsup - liminf)
 }
 
 window.customElements.define('jcb-gauge', Gauge)
