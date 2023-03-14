@@ -1,4 +1,7 @@
 import { LitElement, css, html } from 'lit'
+   
+const R2 = 850 
+const R = 2000
 
 /**
    * A custom-element which displays a gauge
@@ -25,53 +28,146 @@ export class Gauge extends LitElement {
       this.norm = { d1: 40., d2: 60., dt1: 5., dt2: 5., h: 0. }
       this.value = { d1: 50., d2: 50., dt1: 2., dt2: 2., h: 0. }
    }
+
+   valueToAngle(val) {
+      const MIN = -75.
+      const MAX = +75.
+      if (val < this.domain.inf) return MIN
+      if (val > this.domain.sup) return MAX
+      return MIN + (MAX-MIN) * (val - this.domain.inf) / (this.domain.sup - this.domain.inf)
+   }
    
    // angle corresponding to the middle value of the kernel
    get kernelMiddleValue() {
       return (this.value.d2 + this.value.d1) / 2.
    }
-
+   // needle rotation angle (in degree), aiming at the middle of the kernel
    get valueAngle() {
-      return valueToAngle(this.domain.inf, this.domain.sup, this.kernelMiddleValue)
+      return this.valueToAngle(this.kernelMiddleValue)
    }
 
-   get d1ToMiddleAngle() {
-      return valueToAngle(this.domain.inf, this.domain.sup, this.kernelMiddleValue - this.value.d1)
+   get valueKernelLeftAngle() {
+      return this.valueToAngle(this.value.d1)
+   }
+   get valueKernelRightAngle() {
+      return this.valueToAngle(this.value.d2)
    }
 
-   get middleToD2Angle() {
-      return valueToAngle(this.domain.inf, this.domain.sup, this.value.d2 - this.kernelMiddleValue)
+   get valueSupportLeftAngle() {
+      return this.valueToAngle(this.value.d1 - this.value.dt1)
    }
+   get valueSupportRightAngle() {
+      return this.valueToAngle(this.value.d2 + this.value.dt2)
+   }
+
+   get normKernelLeftAngle() {
+      return this.valueToAngle(this.norm.d1)
+   }
+   get normKernelRightAngle() {
+      return this.valueToAngle(this.norm.d2)
+   }
+
+   get normSupportLeftAngle() {
+      return this.valueToAngle(this.norm.d1 - this.norm.dt1)
+   }
+   get normSupportRightAngle() {
+      return this.valueToAngle(this.norm.d2 + this.norm.dt2)
+   }
+
+
+   get compatibilityColor() {
+      if (this.valueSupportRightAngle < this.normSupportLeftAngle) return 'red'
+      if (this.valueSupportLeftAngle > this.normSupportRightAngle) return 'red'
+      if (this.valueSupportLeftAngle > this.normKernelLeftAngle && this.valueSupportLeftAngle < this.normKernelRightAngle
+         && this.valueSupportRightAngle > this.normKernelLeftAngle && this.valueSupportRightAngle < this.normKernelRightAngle) return 'green'
+      return 'orange'
+   }
+
+   get test() {
+      return [this.valueSupportLeftAngle > this.normKernelLeftAngle, this.valueSupportLeftAngle < this.normKernelRightAngle, this.valueSupportRightAngle > this.normKernelLeftAngle, this.valueSupportRightAngle < this.normKernelRightAngle]
+   }
+
+
+   get valueLeftKernelToMiddleAngle() {
+      return this.valueAngle - this.valueKernelLeftAngle
+   }
+   get middleToRightValueKernelAngle() {
+      return this.valueAngle - this.valueKernelRightAngle
+   }
+   get valueLeftKernelX() {
+      return R2*Math.sin(this.valueLeftKernelToMiddleAngle*Math.PI/180.)
+   }
+   get valueLeftKernelY() {
+      return R2*Math.cos(this.valueLeftKernelToMiddleAngle*Math.PI/180.)
+   }
+   get valueRightKernelX() {
+      return R2*Math.sin(this.middleToRightValueKernelAngle*Math.PI/180.)
+   }
+   get valueRightKernelY() {
+      return R2*Math.cos(this.middleToRightValueKernelAngle*Math.PI/180.)
+   }
+   
+   get valueLeftSupportToMiddleAngle() {
+      return this.valueAngle - this.valueSupportLeftAngle
+   }
+   get middleToRightValueSupportAngle() {
+      return this.valueAngle - this.valueSupportRightAngle
+   }
+   get valueLeftSupportX() {
+      return R2*Math.sin(this.valueLeftSupportToMiddleAngle*Math.PI/180.)
+   }
+   get valueLeftSupportY() {
+      return R2*Math.cos(this.valueLeftSupportToMiddleAngle*Math.PI/180.)
+   }
+   get valueRightSupportX() {
+      return R2*Math.sin(this.middleToRightValueSupportAngle*Math.PI/180.)
+   }
+   get valueRightSupportY() {
+      return R2*Math.cos(this.middleToRightValueSupportAngle*Math.PI/180.)
+   }
+
+   get as1x() {
+      return R*Math.sin(this.normSupportLeftAngle*Math.PI/180.)
+   }
+   get as1y() {
+      return R*Math.cos(this.normSupportLeftAngle*Math.PI/180.)
+   }
+   get as2x() {
+      return R*Math.sin(this.normSupportRightAngle*Math.PI/180.)
+   }
+   get as2y() {
+      return R*Math.cos(this.normSupportRightAngle*Math.PI/180.)
+   }
+
+   get ak1x() {
+      return R*Math.sin(this.normKernelLeftAngle*Math.PI/180.)
+   }
+   get ak1y() {
+      return R*Math.cos(this.normKernelLeftAngle*Math.PI/180.)
+   }
+   get ak2x() {
+      return R*Math.sin(this.normKernelRightAngle*Math.PI/180.)
+   }
+   get ak2y() {
+      return R*Math.cos(this.normKernelRightAngle*Math.PI/180.)
+   }
+
 
    render() {
-      const R = 2000
-
-      const as1 = Math.PI/6
-      const as1x = R*Math.sin(as1)
-      const as1y = R*Math.cos(as1)
-      const as2 = -Math.PI/6
-      const as2x = R*Math.sin(as2)
-      const as2y = R*Math.cos(as2)
-
-      const ak1 = Math.PI/8
-      const ak1x = R*Math.sin(ak1)
-      const ak1y = R*Math.cos(ak1)
-      const ak2 = -Math.PI/8
-      const ak2x = R*Math.sin(ak2)
-      const ak2y = R*Math.cos(ak2)
-
-      const R2 = 850 
-      const nas1 = Math.PI/10*0
-      const nas1x = R2*Math.sin(nas1)
-      const nas1y = R2*Math.cos(nas1)
-      const nas2 = -Math.PI/10*0
-      const nas2x = R2*Math.sin(nas2)
-      const nas2y = R2*Math.cos(nas2)
       
       // const compatColor = "#D2FCD9"
       // const compatColorLighter = "#F1FEF0"
       const compatColor = "#F6C8BB"
       const compatColorLighter = "#FDF0ED"
+
+      const compatibilityColors = {
+         red: "#F6C8BB",
+         lightred: "#FDF0ED",
+         orange: "#F6C8BB",
+         lightorange: "#FDF0ED",
+         green: "#D2FCD9",
+         lightgreen: "#F1FEF0",
+      }
 
       return html`
          <svg viewBox="-1050 -1050 2100 1500" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,18 +186,19 @@ export class Gauge extends LitElement {
          
             <g mask="url(#mask0_10_131)">
                <!-- orange area (support) -->
-               <path fill="#FED74C" d="M 0 0 L ${-as1x} ${-as1y} L ${-as2x} ${-as2y} Z"/>
+               <path fill="#FED74C" d="M 0 0 L ${this.as1x} ${-this.as1y} L ${this.as2x} ${-this.as2y} Z"/>
                <!-- green area (kernel) -->
-               <path fill="#5DC67A" d="M 0 0 L ${-ak1x} ${-ak1y} L ${-ak2x} ${-ak2y} Z"/>
+               <path fill="#5DC67A" d="M 0 0 L ${this.ak1x} ${-this.ak1y} L ${this.ak2x} ${-this.ak2y} Z"/>
             </g>
          
             <!-- needle -->
-            <path fill="black" transform="rotate(${this.valueAngle})" d="M 0 30 L -20 30 A 60 60 0 0 1 -50 0 L ${-nas1x-20} ${-nas1y+20} A 60 60 0 0 1 ${-nas1x} ${-nas1y} A 900 900 0 0 1 ${-nas2x} ${-nas2y} A 60 60 0 0 1 ${-nas2x+20} ${-nas2y+20} L 50 0 A 60 60 0 0 1 20 30" />
+            <path fill="#666" transform="rotate(${this.valueAngle})" d="M 0 30 L -20 30 A 60 60 0 0 1 -50 0 L ${-this.valueLeftSupportX-20} ${-this.valueLeftSupportY+20} A 60 60 0 0 1 ${-this.valueLeftSupportX} ${-this.valueLeftSupportY} A 900 900 0 0 1 ${-this.valueRightSupportX} ${-this.valueRightSupportY} A 60 60 0 0 1 ${-this.valueRightSupportX+20} ${-this.valueRightSupportY+20} L 50 0 A 60 60 0 0 1 20 30" />
+            <path fill="black" transform="rotate(${this.valueAngle})" d="M 0 30 L -20 30 A 60 60 0 0 1 -50 0 L ${-this.valueLeftKernelX-20} ${-this.valueLeftKernelY+20} A 60 60 0 0 1 ${-this.valueLeftKernelX} ${-this.valueLeftKernelY} A 900 900 0 0 1 ${-this.valueRightKernelX} ${-this.valueRightKernelY} A 60 60 0 0 1 ${-this.valueRightKernelX+20} ${-this.valueRightKernelY+20} L 50 0 A 60 60 0 0 1 20 30" />
 
             <!-- lower area -->
             <rect fill="${compatColor}" x="-1050" y="150" rx="100" ry="100" width="2100" height="300" />
             <text text-anchor="middle" style="white-space: pre; fill: black; text-align: center; font: bold 100px sans-serif;" x="0" y="330">
-               ${this.name} ${this.kernelMiddleValue}
+               ${this.name} ${this.compatibilityColor}
             </text>
          </svg>
       `
@@ -117,14 +214,6 @@ export class Gauge extends LitElement {
          }
       `
    }
-}
-
-function valueToAngle(liminf, limsup, val) {
-   const MIN = -75.
-   const MAX = +75.
-   if (val < liminf) return MAX
-   if (val > limsup) return MIN
-   return MIN + (MAX-MIN) * (val - liminf) / (limsup - liminf)
 }
 
 window.customElements.define('jcb-gauge', Gauge)
