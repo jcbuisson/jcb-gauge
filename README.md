@@ -1,9 +1,8 @@
 
 # jcb-gauge
 
-# jcb-gauge
-
-A custom-element which displays a gauge
+A custom-element which displays a gauge, using possibility distributions for representing norm and value.
+(see: https://pubmed.ncbi.nlm.nih.gov/18261889/)
 
 ## Properties
 
