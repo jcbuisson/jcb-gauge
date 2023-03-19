@@ -4,7 +4,7 @@
 A custom-element which displays a gauge, using possibility distributions for representing norm and value.
 (see: https://pubmed.ncbi.nlm.nih.gov/18261889/)
 
-<img src="https://jcbuisson.github.io/assets/gauge.png" height="300" />
+<img src="https://jcbuisson.github.io/assets/gauge.png" />
 
 
 ## Properties
