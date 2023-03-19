@@ -185,7 +185,7 @@ export class Gauge extends LitElement {
 
             <!-- lower area -->
             <rect class="${this.colorClass}" x="-1050" y="150" rx="100" ry="100" width="2100" height="300" />
-            <text text-anchor="middle" style="white-space: pre; fill: black; text-align: center; font: bold 100px sans-serif;" x="0" y="330">
+            <text text-anchor="middle" style="white-space: pre; fill: black; font: bold 200px sans-serif;" x="0" y="360">
                ${this.name}
             </text>
          </svg>
@@ -197,8 +197,8 @@ export class Gauge extends LitElement {
          /* :host selects the host element (<jcb-gauge>, not its shadow dom) */
          :host {
             display: inline-block; /* by default a CE is inline and width & height do not apply */
-            width: 100%; /* <jcb-gauge> takes full parent size */
-            height: 100%;
+            width: 100%; /* <jcb-gauge> takes full parent width */
+            height: 100%; /* <jcb-gauge> takes full parent height */
          }
 
          .red {
