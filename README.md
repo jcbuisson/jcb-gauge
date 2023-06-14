@@ -27,3 +27,26 @@ A custom-element which displays a gauge, using possibility distributions for rep
 | `--jcb-gauge-lightred`    | Controls the red color (light)                   |
 | `--jcb-gauge-orange`      | Controls the orange color (all other compatibility situations) |
 | `--jcb-gauge-red`         | Controls the red color (when zero compatibility between value and norm) |
+
+
+# Test index.html with hot-reload
+```
+npm run dev
+```
+
+# Build custom element
+```
+npm run build
+```
+
+Result in `dist/jcb-gauge.js`
+
+
+# Publish on NPM
+```
+npm publish
+```
+
+# Automatic doc generation
+
+https://runem.github.io/web-component-analyzer
