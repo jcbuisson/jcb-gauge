@@ -22,11 +22,9 @@ A custom-element which displays a gauge, using possibility distributions for rep
 | Property                  | Description                                      |
 |---------------------------|--------------------------------------------------|
 | `--jcb-gauge-green`       | Controls the green color (full compatibility between value and norm) |
-| `--jcb-gauge-lightgreen`  | Controls the green color (light)                 |
-| `--jcb-gauge-lightorange` | Controls the orange color (light)                |
-| `--jcb-gauge-lightred`    | Controls the red color (light)                   |
 | `--jcb-gauge-orange`      | Controls the orange color (all other compatibility situations) |
 | `--jcb-gauge-red`         | Controls the red color (when zero compatibility between value and norm) |
+| `--jcb-gauge-font-family` | Controls the text font |
 
 
 # Test index.html with hot-reload

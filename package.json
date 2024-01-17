@@ -1,6 +1,6 @@
 {
   "name": "jcb-gauge",
-  "version": "3.0.8",
+  "version": "3.0.11",
   "type": "module",
   "main": "dist/jcb-gauge.js",
   "exports": {

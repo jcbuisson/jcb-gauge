@@ -152,31 +152,28 @@ export class Gauge extends LitElement {
          && this.valueSupportRightAngle > this.normKernelLeftAngle && this.valueSupportRightAngle < this.normKernelRightAngle) return 'green'
       return 'orange'
    }
-   get lightColorClass() {
-      return 'light' + this.colorClass
-   }
 
    render() {
       return html`
          <svg viewBox="-1050 -1050 2100 1500" fill="none" xmlns="http://www.w3.org/2000/svg">
 
             <!-- background rectangle with rounded corners -->
-            <rect class="${this.lightColorClass}" x="-1050" y="-1050" rx="100" ry="100" width="2100" height="1500" />
+            <rect class="${this.colorClass} light" x="-1050" y="-1050" rx="100" ry="100" width="2100" height="1500" />
 
             <!-- red area, fixed -->
-            <path fill="#FE7151" fill-rule="evenodd" clip-rule="evenodd" d="M 739.593 -693.807 C 859.42 -573.981 947.152 -428.06 997.26 -269.4 L 996.219 -269.06 C 998.694 -258.753 1000 -247.992 1000 -236.928 C 1000 -161.073 938.505 -99.574 862.647 -99.574 C 797.038 -99.574 742.175 -145.576 728.546 -207.082 C 690.725 -316.148 628.521 -416.381 545.344 -499.559 C 400.808 -644.094 204.778 -725.296 0.375 -725.296 C -204.026 -725.296 -400.058 -644.094 -544.593 -499.559 C -627.768 -416.386 -689.968 -316.153 -727.793 -207.083 C -729.748 -198.249 -732.555 -189.736 -736.126 -181.627 C -737.144 -178.332 -738.14 -175.028 -739.106 -171.72 L -740.58 -172.456 C -763.676 -129.095 -809.339 -99.574 -861.893 -99.574 C -937.753 -99.574 -999.245 -161.073 -999.245 -236.928 C -999.245 -243.876 -998.728 -250.705 -997.734 -257.378 L -1000 -258.115 C -950.533 -421.14 -861.5 -571.141 -738.841 -693.807 C -542.786 -889.859 -276.882 -1000 0.375 -1000 C 277.638 -1000 543.541 -889.859 739.593 -693.807 Z" />
+            <path class="red" fill-rule="evenodd" clip-rule="evenodd" d="M 739.593 -693.807 C 859.42 -573.981 947.152 -428.06 997.26 -269.4 L 996.219 -269.06 C 998.694 -258.753 1000 -247.992 1000 -236.928 C 1000 -161.073 938.505 -99.574 862.647 -99.574 C 797.038 -99.574 742.175 -145.576 728.546 -207.082 C 690.725 -316.148 628.521 -416.381 545.344 -499.559 C 400.808 -644.094 204.778 -725.296 0.375 -725.296 C -204.026 -725.296 -400.058 -644.094 -544.593 -499.559 C -627.768 -416.386 -689.968 -316.153 -727.793 -207.083 C -729.748 -198.249 -732.555 -189.736 -736.126 -181.627 C -737.144 -178.332 -738.14 -175.028 -739.106 -171.72 L -740.58 -172.456 C -763.676 -129.095 -809.339 -99.574 -861.893 -99.574 C -937.753 -99.574 -999.245 -161.073 -999.245 -236.928 C -999.245 -243.876 -998.728 -250.705 -997.734 -257.378 L -1000 -258.115 C -950.533 -421.14 -861.5 -571.141 -738.841 -693.807 C -542.786 -889.859 -276.882 -1000 0.375 -1000 C 277.638 -1000 543.541 -889.859 739.593 -693.807 Z" />
          
             <!-- mask for clipping orange and green cones -->
             <mask id="mask0_10_131" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="-1000" y="-1000" width="2000" height="1000">
                <!-- red area again, but for clipping orange and green cones -->
-               <path fill="#FE7151" fill-rule="evenodd" clip-rule="evenodd" d="M 739.593 -693.807 C 859.42 -573.981 947.152 -428.06 997.26 -269.4 L 996.219 -269.06 C 998.694 -258.753 1000 -247.992 1000 -236.928 C 1000 -161.073 938.505 -99.574 862.647 -99.574 C 797.038 -99.574 742.175 -145.576 728.546 -207.082 C 690.725 -316.148 628.521 -416.381 545.344 -499.559 C 400.808 -644.094 204.778 -725.296 0.375 -725.296 C -204.026 -725.296 -400.058 -644.094 -544.593 -499.559 C -627.768 -416.386 -689.968 -316.153 -727.793 -207.083 C -729.748 -198.249 -732.555 -189.736 -736.126 -181.627 C -737.144 -178.332 -738.14 -175.028 -739.106 -171.72 L -740.58 -172.456 C -763.676 -129.095 -809.339 -99.574 -861.893 -99.574 C -937.753 -99.574 -999.245 -161.073 -999.245 -236.928 C -999.245 -243.876 -998.728 -250.705 -997.734 -257.378 L -1000 -258.115 C -950.533 -421.14 -861.5 -571.141 -738.841 -693.807 C -542.786 -889.859 -276.882 -1000 0.375 -1000 C 277.638 -1000 543.541 -889.859 739.593 -693.807 Z" />
+               <path class="red" fill-rule="evenodd" clip-rule="evenodd" d="M 739.593 -693.807 C 859.42 -573.981 947.152 -428.06 997.26 -269.4 L 996.219 -269.06 C 998.694 -258.753 1000 -247.992 1000 -236.928 C 1000 -161.073 938.505 -99.574 862.647 -99.574 C 797.038 -99.574 742.175 -145.576 728.546 -207.082 C 690.725 -316.148 628.521 -416.381 545.344 -499.559 C 400.808 -644.094 204.778 -725.296 0.375 -725.296 C -204.026 -725.296 -400.058 -644.094 -544.593 -499.559 C -627.768 -416.386 -689.968 -316.153 -727.793 -207.083 C -729.748 -198.249 -732.555 -189.736 -736.126 -181.627 C -737.144 -178.332 -738.14 -175.028 -739.106 -171.72 L -740.58 -172.456 C -763.676 -129.095 -809.339 -99.574 -861.893 -99.574 C -937.753 -99.574 -999.245 -161.073 -999.245 -236.928 C -999.245 -243.876 -998.728 -250.705 -997.734 -257.378 L -1000 -258.115 C -950.533 -421.14 -861.5 -571.141 -738.841 -693.807 C -542.786 -889.859 -276.882 -1000 0.375 -1000 C 277.638 -1000 543.541 -889.859 739.593 -693.807 Z" />
             </mask>
          
             <g mask="url(#mask0_10_131)">
                <!-- orange area (support) -->
-               <path fill="#FED74C" d="M 0 0 L ${this.normSupportLeftX} ${-this.normSupportLeftY} L ${this.normSupportRightX} ${-this.normSupportRightY} Z"/>
+               <path class="orange" d="M 0 0 L ${this.normSupportLeftX} ${-this.normSupportLeftY} L ${this.normSupportRightX} ${-this.normSupportRightY} Z"/>
                <!-- green area (kernel) -->
-               <path fill="#5DC67A" d="M 0 0 L ${this.normKernelLeftX} ${-this.normKernelLeftY} L ${this.normKernelRightX} ${-this.normKernelRightY} Z"/>
+               <path class="green" d="M 0 0 L ${this.normKernelLeftX} ${-this.normKernelLeftY} L ${this.normKernelRightX} ${-this.normKernelRightY} Z"/>
             </g>
          
             <!-- needle -->
@@ -184,8 +181,8 @@ export class Gauge extends LitElement {
             <path fill="black" transform="rotate(${this.valueAngle})" d="M 0 30 L -20 30 A 60 60 0 0 1 -50 0 L ${-this.valueLeftKernelX-20} ${-this.valueLeftKernelY+20} A 60 60 0 0 1 ${-this.valueLeftKernelX} ${-this.valueLeftKernelY} A 900 900 0 0 1 ${-this.valueRightKernelX} ${-this.valueRightKernelY} A 60 60 0 0 1 ${-this.valueRightKernelX+20} ${-this.valueRightKernelY+20} L 50 0 A 60 60 0 0 1 20 30" />
 
             <!-- lower area -->
-            <rect class="${this.colorClass}" x="-1050" y="150" rx="100" ry="100" width="2100" height="300" />
-            <text text-anchor="middle" style="white-space: pre; fill: black; font: bold 200px sans-serif;" x="0" y="360">
+            <rect class="${this.colorClass} fairlylight" x="-1050" y="150" rx="100" ry="100" width="2100" height="300" />
+            <text text-anchor="middle" class="text" fill="black" x="0" y="360">
                ${this.name}
             </text>
          </svg>
@@ -202,22 +199,28 @@ export class Gauge extends LitElement {
          }
 
          .red {
-            fill: var(--jcb-gauge-red, #F6C8BB);
-         }
-         .lightred {
-            fill: var(--jcb-gauge-lightred, #FDF0ED);
+            fill: var(--jcb-gauge-red, #FE7151);
          }
          .green {
-            fill: var(--jcb-gauge-green, #D2FCD9);
-         }
-         .lightgreen {
-            fill: var(--jcb-gauge-lightgreen, #F1FEF0);
+            fill: var(--jcb-gauge-green, #5DC67A);
          }
          .orange {
-            fill: var(--jcb-gauge-orange, #ffe484);
+            fill: var(--jcb-gauge-orange, #FED74C);
          }
-         .lightorange {
-            fill: var(--jcb-gauge-lightorange, #fef4d3);
+
+         .fairlylight {
+            opacity: 0.4;
+         }
+
+         .light {
+            opacity: 0.1;
+         }
+
+         .text {
+            font-weight: bold;
+            font-size: 200px;
+            ffont-family: sans-serif;
+            font-family: var(--jcb-gauge-font-family, sans-serif);
          }
       `
    }
