@@ -150,8 +150,8 @@ export class Gauge extends LitElement {
    get colorClass() {
       if (this.valueSupportRightAngle < this.normSupportLeftAngle) return 'red'
       if (this.valueSupportLeftAngle > this.normSupportRightAngle) return 'red'
-      if (this.valueSupportLeftAngle > this.normKernelLeftAngle && this.valueSupportLeftAngle < this.normKernelRightAngle
-         && this.valueSupportRightAngle > this.normKernelLeftAngle && this.valueSupportRightAngle < this.normKernelRightAngle) return 'green'
+      if (this.valueSupportLeftAngle >= this.normKernelLeftAngle && this.valueSupportLeftAngle < this.normKernelRightAngle
+         && this.valueSupportRightAngle >= this.normKernelLeftAngle && this.valueSupportRightAngle <= this.normKernelRightAngle) return 'green'
       return 'orange'
    }
 
